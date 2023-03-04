@@ -5,3 +5,7 @@
 #login-btn {
   color: white;
 }
+
+#errors-container {
+  width: fit-content;
+}
