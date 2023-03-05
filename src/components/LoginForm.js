@@ -1,5 +1,6 @@
 function LoginForm(props) {
   console.log(props);
+  const { username, password } = props;
   return (
     <>
       <form className="row g-3" id="login-form" onSubmit={props.submitHandler}>
@@ -12,6 +13,7 @@ function LoginForm(props) {
             className="form-control"
             id="username"
             autoComplete="on"
+            defaultValue={username || ''}
           />
         </div>
         <div className="col-md-6">
@@ -24,6 +26,7 @@ function LoginForm(props) {
             id="password"
             name="password"
             autoComplete="on"
+            defaultValue={password || ''}
           />
         </div>
         <div className="col-12 text-center">

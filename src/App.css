@@ -1,11 +1,16 @@
 #login-form {
   margin: 3rem auto;
-  width: fit-content;
+  width: 60%;
 }
 #login-btn {
   color: white;
 }
 
-#errors-container {
-  width: fit-content;
+.errors-container {
+  width: 60%;
+  margin: 1rem auto;
+}
+
+#error {
+  width: 100%;
 }

@@ -24,7 +24,7 @@ function LoginPage(props) {
         <LoginForm
           submitHandler={submitHandler}
           password={password}
-          username="hiu"
+          username={username}
         />
       </>
     );
