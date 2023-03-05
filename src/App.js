@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import './App.css';
 import LoginPage from './components/LoginPage';
+import Navbar from './components/navbar';
+import AddPost from './components/postPage';
 function App() {
   const [user, setUser] = useState(localStorage.getItem('user'));
   if (!user)
@@ -12,16 +14,23 @@ function App() {
   else
     return (
       <div className="App">
-        <button
-          onClick={() => {
-            localStorage.removeItem('user');
-            setUser(false);
-          }}
-        >
-          Logout
-        </button>
+        <Navbar
+          elements={[
+            {
+              title: 'Logout',
+              active: false,
+              on_click: onLogout,
+            },
+          ]}
+        />
+        <AddPost />
       </div>
     );
+
+  function onLogout() {
+    localStorage.removeItem('user');
+    setUser(false);
+  }
 
   function updateUser() {
     setUser(true);
