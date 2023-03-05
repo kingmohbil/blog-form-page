@@ -1,23 +1,39 @@
 import { useState } from 'react';
 import Error from './error';
 import LoginForm from './LoginForm';
+import Navbar from './navbar';
+
 function LoginPage(props) {
   const [errors, setErrors] = useState([]);
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
+
+  const elements = [
+    {
+      type: 'text',
+      id: 'username',
+      value: username,
+      text: 'username',
+    },
+    {
+      type: 'password',
+      id: 'password',
+      value: password,
+      text: 'password',
+    },
+  ];
+
   if (errors.length === 0)
     return (
       <>
-        <LoginForm
-          password={password}
-          username={username}
-          submitHandler={submitHandler}
-        />
+        <Navbar elements={[{ title: 'Home', href: '/', active: true }]} />
+        <LoginForm elements={elements} submitHandler={submitHandler} />
       </>
     );
   else
     return (
       <>
+        <Navbar elements={[{ title: 'Home', href: '/', active: true }]} />
         <div className="errors-container">
           <Errors errors={errors} />
         </div>

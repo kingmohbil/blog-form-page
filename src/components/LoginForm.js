@@ -1,34 +1,24 @@
+import Label from './formLabel';
+import Input from './formInput';
 function LoginForm(props) {
-  console.log(props);
-  const { username, password } = props;
+  const { elements } = props;
   return (
     <>
       <form className="row g-3" id="login-form" onSubmit={props.submitHandler}>
-        <div className="col-md-6">
-          <label htmlFor="username" className="form-label">
-            username
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="username"
-            autoComplete="on"
-            defaultValue={username || ''}
-          />
-        </div>
-        <div className="col-md-6">
-          <label htmlFor="password" className="form-label">
-            password
-          </label>
-          <input
-            type="password"
-            className="form-control"
-            id="password"
-            name="password"
-            autoComplete="on"
-            defaultValue={password || ''}
-          />
-        </div>
+        {elements.map((element) => {
+          return (
+            <>
+              <div className="col-md-6">
+                <Label id={element.id} text={element.text} />
+                <Input
+                  type={element.type}
+                  id={element.id}
+                  value={element.value}
+                />
+              </div>
+            </>
+          );
+        })}
         <div className="col-12 text-center">
           <button type="submit" className="btn btn-warning" id="login-btn">
             Sign in
