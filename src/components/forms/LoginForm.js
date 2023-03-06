@@ -5,10 +5,10 @@ function LoginForm(props) {
   return (
     <>
       <form className="row g-3" id="login-form" onSubmit={props.submitHandler}>
-        {elements.map((element) => {
+        {elements.map((element, index) => {
           return (
             <>
-              <div className="col-md-6">
+              <div className="col-md-6" key={index}>
                 <Label id={element.id} text={element.text} />
                 <Input
                   type={element.type}
