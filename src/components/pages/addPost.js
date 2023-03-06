@@ -3,7 +3,7 @@ import Navbar from '../navbar';
 import PostForm from '../forms/postForm';
 import Error from '../error';
 
-function PostPage(props) {
+const PostPage = (props) => {
   const [errors, setErrors] = useState([]);
   const [title, setTitle] = useState(null);
   const [text, setText] = useState(null);
@@ -18,11 +18,6 @@ function PostPage(props) {
       title: 'Add Post',
       active: true,
       href: '/addPost',
-    },
-    {
-      title: 'Add Comment',
-      active: false,
-      href: '/addComment',
     },
     {
       title: 'Logout',
@@ -45,7 +40,7 @@ function PostPage(props) {
         <Errors errors={errors} />
       </div>
       <PostForm on_submit={HandleAddPost} title={title} text={text} />
-      {success ? <p>Post created successfully</p> : ''}
+      {success ? <span id="success">Post created successfully</span> : ''}
     </>
   );
 
@@ -78,7 +73,7 @@ function PostPage(props) {
       setErrors([{ msg: err.message }]);
     }
   }
-}
+};
 
 export default PostPage;
 
