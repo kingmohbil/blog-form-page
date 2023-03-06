@@ -1,43 +1,62 @@
 import { useState } from 'react';
 import './App.css';
-import LoginPage from './components/LoginPage';
-import Navbar from './components/navbar';
-import AddPost from './components/postPage';
-import Post from './components/post';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import LoginPage from './components/pages/LoginPage';
+import ProtectLogin from './components/protection/protectLogin';
+import Protected from './components/protection/protected';
+import AddPost from './components/pages/addPost';
 
 function App() {
-  const [user, setUser] = useState(localStorage.getItem('user'));
-  if (!user)
-    return (
-      <div className="App">
-        <Navbar elements={[{ title: 'Home', href: '/', active: true }]} />
-        <LoginPage updateUser={updateUser} />
-      </div>
-    );
-  else
-    return (
-      <div className="App">
-        <Navbar
-          elements={[
-            {
-              title: 'Logout',
-              active: false,
-              on_click: onLogout,
-            },
-          ]}
-        />
-        <AddPost />
-        <Post title="Welcione" />
-      </div>
-    );
+  const [loggedIn, setLoggedIn] = useState(
+    localStorage.getItem('user') != null
+  );
 
-  function onLogout() {
-    localStorage.removeItem('user');
-    setUser(false);
+  return (
+    <BrowserRouter>
+      <div className="App">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Protected isLoggedIn={loggedIn}>
+                <div>HomePage</div>
+              </Protected>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <ProtectLogin isLoggedIn={loggedIn}>
+                <LoginPage Login={login} />
+              </ProtectLogin>
+            }
+          />
+          <Route
+            path="/addPost"
+            element={
+              <Protected isLoggedIn={loggedIn}>
+                <AddPost Logout={logout} />
+              </Protected>
+            }
+          />
+          <Route
+            path="/addComment"
+            element={
+              <Protected isLoggedIn={loggedIn}>{/* <AddComment />*/}</Protected>
+            }
+          />
+        </Routes>
+      </div>
+    </BrowserRouter>
+  );
+
+  function login() {
+    setLoggedIn(true);
   }
 
-  function updateUser() {
-    setUser(true);
+  function logout() {
+    localStorage.removeItem('user');
+    setLoggedIn(false);
   }
 }
 
