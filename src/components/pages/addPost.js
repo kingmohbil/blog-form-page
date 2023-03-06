@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../navbar';
 import PostForm from '../forms/postForm';
 import Error from '../error';
@@ -7,7 +8,8 @@ const PostPage = (props) => {
   const [errors, setErrors] = useState([]);
   const [title, setTitle] = useState(null);
   const [text, setText] = useState(null);
-  const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
+
   const Elements = [
     {
       title: 'Home',
@@ -40,7 +42,6 @@ const PostPage = (props) => {
         <Errors errors={errors} />
       </div>
       <PostForm on_submit={HandleAddPost} title={title} text={text} />
-      {success ? <span id="success">Post created successfully</span> : ''}
     </>
   );
 
@@ -62,11 +63,14 @@ const PostPage = (props) => {
         }),
       });
       const data = await response.json();
-      if (response.status !== 200) {
+
+      if (response.status === 200) {
+        navigate('/');
+      } else {
         setTitle(title.value);
         setText(text.value);
         setErrors(data.errors);
-      } else setSuccess(true);
+      }
     } catch (err) {
       setTitle(title.value);
       setText(text.value);
