@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 function NavItem(props) {
   if (props.on_click !== undefined) {
     return (
@@ -15,13 +16,13 @@ function NavItem(props) {
   } else
     return (
       <li className="nav-item">
-        <a
+        <Link
           className={props.active ? 'nav-link active' : 'nav-link'}
           aria-current="page"
-          href={props.href}
+          to={props.href}
         >
           {props.title}
-        </a>
+        </Link>
       </li>
     );
 }
