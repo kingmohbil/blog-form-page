@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Navbar from '../navbar';
-import Comment from '../forms/commentForm';
+import Post from '../post';
+const datesManger = new Date();
 const Home = (props) => {
   const [posts, setPosts] = useState([]);
 
@@ -31,10 +32,15 @@ const Home = (props) => {
       <div className="posts-container">
         {posts.map((post, index) => {
           return (
-            <div key={index}>
-              <div>{post.title}</div>
-              <Comment postId={post._id} on_submit={AddComment} />
-            </div>
+            <Post
+              username={post.author.username}
+              title={post.title}
+              created_at={datesManger.toUTCString(post.created_at)}
+              message={post.text}
+              postId={post._id}
+              key={index}
+              on_submit={AddComment}
+            />
           );
         })}
       </div>
@@ -52,7 +58,9 @@ const Home = (props) => {
         }),
       });
       const data = await response.json();
-      setPosts(data.posts);
+      console.log(data);
+      if (response.ok) setPosts(data.posts);
+      else data.errors.map((error) => console.error(error.msg));
     } catch (error) {
       console.error(error.message);
     }
@@ -60,7 +68,7 @@ const Home = (props) => {
 
   async function AddComment(e) {
     e.preventDefault();
-    const postId = e.target.getAttribute('data-postId');
+    const postId = e.target.getAttribute('data-postid');
     const token = JSON.parse(localStorage.getItem('user')).token;
     try {
       const response = await fetch(
