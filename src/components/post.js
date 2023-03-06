@@ -1,6 +1,8 @@
 import '../css/post.css';
 import CommentForm from './forms/commentForm';
+import { useNavigate } from 'react-router-dom';
 function Post(props) {
+  const navigate = useNavigate();
   return (
     <>
       <div className="col">
@@ -18,7 +20,15 @@ function Post(props) {
             <p className="card-text">{props.message}</p>
           </div>
           <div className="card-footer">
-            <p id="comment-btn-container">
+            <p id="buttons-container">
+              <button
+                className="btn btn-danger text-light"
+                type="button"
+                data-postid={props.postId}
+                onClick={handleDeletePost}
+              >
+                Delete Post
+              </button>
               <button
                 className="btn btn-warning text-light"
                 type="button"
@@ -48,6 +58,30 @@ function Post(props) {
       </div>
     </>
   );
+  async function handleDeletePost(e) {
+    e.preventDefault();
+    const postId = e.target.getAttribute('data-postid');
+    const token = JSON.parse(localStorage.getItem('user')).token;
+    try {
+      const response = await fetch(`http://localhost:5000/posts/${postId}`, {
+        method: 'DELETE',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        }),
+      });
+      console.log(response);
+      if (response.ok) navigate(0);
+      else {
+        const data = await response.json();
+        data.errors.map((err) => console.error(err.msg));
+      }
+
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
 
 export default Post;
