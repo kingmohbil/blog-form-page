@@ -19,3 +19,7 @@
   background: transparent;
   border: none;
 }
+
+.posts-container {
+  margin: 0 auto;
+}

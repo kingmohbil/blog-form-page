@@ -11,3 +11,22 @@
 #post-btn {
   color: white !important;
 }
+
+.posts-container {
+  margin: 3rem auto;
+  width: 50%;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+#comment-btn-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#comments-btn {
+  align-self: flex-end;
+}
