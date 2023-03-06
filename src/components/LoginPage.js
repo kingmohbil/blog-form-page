@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import Error from './error';
 import LoginForm from './LoginForm';
-import Navbar from './navbar';
 
 function LoginPage(props) {
   const [errors, setErrors] = useState([]);
@@ -26,14 +25,12 @@ function LoginPage(props) {
   if (errors.length === 0)
     return (
       <>
-        <Navbar elements={[{ title: 'Home', href: '/', active: true }]} />
         <LoginForm elements={elements} submitHandler={submitHandler} />
       </>
     );
   else
     return (
       <>
-        <Navbar elements={[{ title: 'Home', href: '/', active: true }]} />
         <div className="errors-container">
           <Errors errors={errors} />
         </div>
@@ -47,7 +44,7 @@ function LoginPage(props) {
 
   async function submitHandler(e) {
     e.preventDefault();
-    console.log('submitting');
+
     const { username, password } = e.target;
 
     const result = await fetch('http://localhost:5000/login', {

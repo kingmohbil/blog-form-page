@@ -1,49 +1,57 @@
 import { useState } from 'react';
-import Input from './formInput';
-import Label from './formLabel';
+import PostForm from './postForm';
+import Error from './error';
+
 function PostPage(props) {
   const [errors, setErrors] = useState([]);
   const [title, setTitle] = useState(null);
   const [text, setText] = useState(null);
 
-  return (
-    <form className="row g-3" id="login-form" onSubmit={HandleAddPost}>
-      <div className="col-md-12">
-        <Label text="title" id="title" />
-        <Input id="title" type="text" value={title} />
-      </div>
-      <div className="col-md-12">
-        <Label text="text" id="text" />
-        <textarea name="text" id="text" className="form-control">
-          {text || ''}
-        </textarea>
-      </div>
-      <div className="col-12 text-center">
-        <button type="submit" className="btn btn-warning" id="login-btn">
-          Add Post
-        </button>
-      </div>
-    </form>
-  );
+  if (errors.length === 0) return <PostForm on_submit={HandleAddPost} />;
+  else
+    return (
+      <>
+        <div className="errors-container">
+          <Errors errors={errors} />
+        </div>
+        <PostForm on_submit={HandleAddPost} title={title} text={text} />
+      </>
+    );
 
   async function HandleAddPost(e) {
     e.preventDefault();
+    const tokenObj = JSON.parse(localStorage.getItem('user'));
+    const bearerToken = `Bearer ${tokenObj.token}`;
     const { title, text } = e.target;
-    const response = await fetch('http://localhost:5000/posts', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: `Bearer ${
-          JSON.parse(localStorage.getItem('user')).token
-        }`,
-      },
-      body: {
-        text: text.value,
-        title: title.value,
-      },
-    });
-    console.log(response);
+    try {
+      const response = await fetch('http://localhost:5000/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: bearerToken,
+        },
+        body: JSON.stringify({
+          text: text.value,
+          title: title.value,
+        }),
+      });
+      const data = await response.json();
+      if (response.status !== 200) {
+        setTitle(title.value);
+        setText(text.value);
+        setErrors(data.errors);
+      }
+    } catch (err) {
+      setTitle(title.value);
+      setText(text.value);
+      setErrors([{ msg: err.message }]);
+    }
   }
 }
 
 export default PostPage;
+
+function Errors(props) {
+  const { errors } = props;
+  return errors.map((err, index) => <Error msg={err.msg} key={index} />);
+}
