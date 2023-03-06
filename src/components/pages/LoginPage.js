@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Error from '../error';
-import LoginForm from '../forms/LoginForm';
+import LoginForm from '../forms/loginForm';
 import Navbar from '../navbar';
 
 function LoginPage(props) {
