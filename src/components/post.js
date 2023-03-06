@@ -63,13 +63,16 @@ function Post(props) {
     const postId = e.target.getAttribute('data-postid');
     const token = JSON.parse(localStorage.getItem('user')).token;
     try {
-      const response = await fetch(`http://localhost:5000/posts/${postId}`, {
-        method: 'DELETE',
-        headers: new Headers({
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        }),
-      });
+      const response = await fetch(
+        `https://blog-api-production-23bb.up.railway.app/posts/${postId}`,
+        {
+          method: 'DELETE',
+          headers: new Headers({
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          }),
+        }
+      );
       console.log(response);
       if (response.ok) navigate(0);
       else {

@@ -4,7 +4,7 @@ import LoginForm from '../forms/LoginForm';
 import Navbar from '../navbar';
 
 function LoginPage(props) {
-  const [errors, setErrors] = useState([]);
+  const [err, setErrors] = useState([]);
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
 
@@ -22,20 +22,31 @@ function LoginPage(props) {
       text: 'password',
     },
   ];
-
-  if (errors.length === 0)
+  const navElements = [
+    {
+      title: 'Home',
+      href: '/',
+      active: true,
+    },
+    {
+      title: 'Sign up',
+      href: '/signup',
+      active: false,
+    },
+  ];
+  if (err.length === 0)
     return (
       <>
-        <Navbar elements={[{ title: 'Home', href: '/', active: true }]} />
+        <Navbar elements={navElements} />
         <LoginForm elements={elements} submitHandler={submitHandler} />
       </>
     );
   else
     return (
       <>
-        <Navbar elements={[{ title: 'Home', href: '/', active: true }]} />
+        <Navbar elements={navElements} />
         <div className="errors-container">
-          <Errors errors={errors} />
+          <Errors errors={err} />
         </div>
         <LoginForm
           submitHandler={submitHandler}
@@ -49,35 +60,40 @@ function LoginPage(props) {
     e.preventDefault();
 
     const { username, password } = e.target;
-
-    const result = await fetch('http://localhost:5000/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: username.value,
-        password: password.value,
-      }),
-    });
-
-    const data = await result.json();
-    console.log(data);
-
-    if (result.status === 400) {
-      setUsername(username.value);
-      setPassword(password.value);
-      setErrors(data.errors);
-    }
-
-    if (result.status === 200) {
-      localStorage.setItem(
-        'user',
-        JSON.stringify({
-          token: data.token,
-        })
+    try {
+      const response = await fetch(
+        'https://blog-api-production-23bb.up.railway.app/login',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username: username.value,
+            password: password.value,
+          }),
+        }
       );
-      props.Login();
+
+      const data = await response.json();
+      console.log(data.errors[0]);
+      console.log(response);
+      if (response.status === 400 || response.status === 403) {
+        setUsername(username.value);
+        setPassword(password.value);
+        setErrors(data.errors);
+      }
+      if (response.status === 200) {
+        localStorage.setItem(
+          'user',
+          JSON.stringify({
+            token: data.token,
+          })
+        );
+        props.Login();
+      }
+    } catch (error) {
+      console.log(error.message);
     }
   }
 }
@@ -86,5 +102,8 @@ export default LoginPage;
 
 function Errors(props) {
   const { errors } = props;
-  return errors.map((err, index) => <Error msg={err.msg} key={index} />);
+
+  return errors.map((err, index) => {
+    return <Error msg={err.msg} key={index} />;
+  });
 }

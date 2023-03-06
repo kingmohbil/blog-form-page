@@ -49,14 +49,17 @@ const Home = (props) => {
 
   async function getUserPosts() {
     try {
-      const response = await fetch('http://localhost:5000/posts/user', {
-        headers: new Headers({
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem('user')).token
-          }`,
-        }),
-      });
+      const response = await fetch(
+        'https://blog-api-production-23bb.up.railway.app/posts/user',
+        {
+          headers: new Headers({
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem('user')).token
+            }`,
+          }),
+        }
+      );
       const data = await response.json();
       if (response.ok) setPosts(data.posts);
       else data.errors.map((error) => console.error(error.msg));
@@ -71,7 +74,7 @@ const Home = (props) => {
     const token = JSON.parse(localStorage.getItem('user')).token;
     try {
       const response = await fetch(
-        `http://localhost:5000/posts/${postId}/comments`,
+        `https://blog-api-production-23bb.up.railway.app/posts/${postId}/comments`,
         {
           method: 'POST',
           headers: new Headers({

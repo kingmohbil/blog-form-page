@@ -6,6 +6,7 @@ import ProtectLogin from './components/protection/protectLogin';
 import Protected from './components/protection/protected';
 import AddPost from './components/pages/addPost';
 import Home from './components/pages/homePage';
+import SignupPage from './components/pages/signupPage';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(
@@ -29,6 +30,14 @@ function App() {
             element={
               <ProtectLogin isLoggedIn={loggedIn}>
                 <LoginPage Login={login} />
+              </ProtectLogin>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <ProtectLogin isLoggedIn={loggedIn}>
+                <SignupPage Login={login} />
               </ProtectLogin>
             }
           />

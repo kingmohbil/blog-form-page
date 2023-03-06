@@ -7,6 +7,7 @@ function FormInput(props) {
       id={props.id}
       autoComplete="on"
       defaultValue={props.value || ''}
+      required
     />
   );
 }

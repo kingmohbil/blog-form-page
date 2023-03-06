@@ -51,17 +51,20 @@ const PostPage = (props) => {
     const bearerToken = `Bearer ${tokenObj.token}`;
     const { title, text } = e.target;
     try {
-      const response = await fetch('http://localhost:5000/posts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: bearerToken,
-        },
-        body: JSON.stringify({
-          text: text.value,
-          title: title.value,
-        }),
-      });
+      const response = await fetch(
+        'https://blog-api-production-23bb.up.railway.app/posts',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: bearerToken,
+          },
+          body: JSON.stringify({
+            text: text.value,
+            title: title.value,
+          }),
+        }
+      );
       const data = await response.json();
 
       if (response.status === 200) {
