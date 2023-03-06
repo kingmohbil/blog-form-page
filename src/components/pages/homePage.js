@@ -58,7 +58,6 @@ const Home = (props) => {
         }),
       });
       const data = await response.json();
-      console.log(data);
       if (response.ok) setPosts(data.posts);
       else data.errors.map((error) => console.error(error.msg));
     } catch (error) {
