@@ -21,7 +21,7 @@ function SignupForm(props) {
         })}
         <div className="col-12 text-center">
           <button type="submit" className="btn btn-warning" id="login-btn">
-            Sign in
+            Sign up
           </button>
         </div>
       </form>

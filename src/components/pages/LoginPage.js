@@ -4,7 +4,7 @@ import LoginForm from '../forms/LoginForm';
 import Navbar from '../navbar';
 
 function LoginPage(props) {
-  const [err, setErrors] = useState([]);
+  const [errors, setErrors] = useState(null);
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
 
@@ -24,8 +24,8 @@ function LoginPage(props) {
   ];
   const navElements = [
     {
-      title: 'Home',
-      href: '/',
+      title: 'Login',
+      href: '/login',
       active: true,
     },
     {
@@ -34,7 +34,7 @@ function LoginPage(props) {
       active: false,
     },
   ];
-  if (err.length === 0)
+  if (!errors)
     return (
       <>
         <Navbar elements={navElements} />
@@ -46,9 +46,10 @@ function LoginPage(props) {
       <>
         <Navbar elements={navElements} />
         <div className="errors-container">
-          <Errors errors={err} />
+          <Errors errors={errors} />
         </div>
         <LoginForm
+          elements={elements}
           submitHandler={submitHandler}
           password={password}
           username={username}
@@ -76,8 +77,6 @@ function LoginPage(props) {
       );
 
       const data = await response.json();
-      console.log(data.errors[0]);
-      console.log(response);
       if (response.status === 400 || response.status === 403) {
         setUsername(username.value);
         setPassword(password.value);
@@ -102,8 +101,5 @@ export default LoginPage;
 
 function Errors(props) {
   const { errors } = props;
-
-  return errors.map((err, index) => {
-    return <Error msg={err.msg} key={index} />;
-  });
+  return errors.map((err, index) => <Error msg={err.msg} key={index} />);
 }

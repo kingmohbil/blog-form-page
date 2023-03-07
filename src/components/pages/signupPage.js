@@ -48,21 +48,25 @@ function SignupPage(props) {
   ];
   const navElements = [
     {
-      title: 'Home',
-      href: '/',
-      active: true,
+      title: 'Login',
+      href: '/login',
+      active: false,
     },
     {
       title: 'Sign up',
       href: '/signup',
-      active: false,
+      active: true,
     },
   ];
   if (errors.length === 0)
     return (
       <>
         <Navbar elements={navElements} />
-        <SignupForm elements={elements} submitHandler={submitHandler} />
+        <SignupForm
+          elements={elements}
+          submitHandler={submitHandler}
+          btnText="Sign up"
+        />
       </>
     );
   else
@@ -80,6 +84,7 @@ function SignupPage(props) {
           email={email}
           password={password}
           username={username}
+          btnText="Sign up"
         />
       </>
     );
