@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import LoginPage from './components/pages/LoginPage';
 import ProtectLogin from './components/protection/protectLogin';
 import Protected from './components/protection/protected';
@@ -14,7 +14,7 @@ function App() {
   );
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <div className="App">
         <Routes>
           <Route
@@ -51,7 +51,7 @@ function App() {
           />
         </Routes>
       </div>
-    </BrowserRouter>
+    </HashRouter>
   );
 
   function login() {
