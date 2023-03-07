@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/github.io/blog-form-page/static/css/main.577468ed.css",
+    "main.js": "/github.io/blog-form-page/static/js/main.bd200c8c.js",
+    "index.html": "/github.io/blog-form-page/index.html",
+    "main.577468ed.css.map": "/github.io/blog-form-page/static/css/main.577468ed.css.map",
+    "main.bd200c8c.js.map": "/github.io/blog-form-page/static/js/main.bd200c8c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.577468ed.css",
+    "static/js/main.bd200c8c.js"
+  ]
+}
