@@ -80,7 +80,8 @@ function LoginPage(props) {
       if (response.status === 400 || response.status === 403) {
         setUsername(username.value);
         setPassword(password.value);
-        setErrors(data.errors);
+        const temp = data.errors;
+        setErrors(temp);
       }
       if (response.status === 200) {
         localStorage.setItem(
@@ -101,5 +102,12 @@ export default LoginPage;
 
 function Errors(props) {
   const { errors } = props;
+<<<<<<< HEAD
   return errors.map((err, index) => <Error msg={err.msg} key={index} />);
+=======
+  console.log(typeof errors);
+  return errors.map((err, index) => {
+    return <Error msg={err.msg} key={index} />;
+  });
+>>>>>>> 7de54c9 (Added console.log statement)
 }
